@@ -1,5 +1,4 @@
-#ifndef UART_BBB
-#define UART_BBB
+#pragma once
 
 enum UART_TYPE {TX = 0, RX = 1, BOTH = 2};
 
@@ -22,13 +21,9 @@ class UART {
         
         int uart_read(void* buffer, size_t len);
         
-        int dmx_write(void* data, size_t len);
+        int write_zeros(long msTime);
 
-        int status();
-        
-        int getID();
-        
+        int write_ones(long msTime);
+             
         ~UART();
 };
-
-#endif

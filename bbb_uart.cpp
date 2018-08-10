@@ -45,7 +45,7 @@ int UART::init() {
         return -1;
     }
     
-    /* Struc to be populated with uart data */
+    /* Struct to be populated with uart data */
     struct termios2 uartTerm;
     
     /* getting info on uart */
@@ -87,7 +87,7 @@ int UART::init() {
 
 int UART::uart_write(void* data, size_t len) {
     if (initFlag != 1) {
-        cerr << "uart_write: Uart" << uartNum << " has not been initiated." << endl;
+        cerr << "uart_write: UART" << uartNum << " has not been initiated." << endl;
         return -1;
     }
 
@@ -102,7 +102,7 @@ int UART::uart_read(void* buffer, size_t len) {
     int count;
     
     if (initFlag != 1) {
-        cerr << "uart_read: Uart" << uartNum << " has not been initiated." << endl;
+        cerr << "uart_read: UART" << uartNum << " has not been initiated." << endl;
         return -1;
     }
 
@@ -114,41 +114,31 @@ int UART::uart_read(void* buffer, size_t len) {
     return count;
 }
 
-int UART::dmx_write(void* data, size_t len) {
-    
+int UART::write_zeros(long interval) {
     if (initFlag != 1) {
-        cerr << "uart_write: Uart" << uartNum << " has not been initiated." << endl;
+        cerr << "Write_zeros: UART" << uartNum << " has not been initiated." << endl;
         return -1;
     }
-    
+   
     if( ioctl(uartID, TIOCSBRK) < 0) {
-        cerr << "uart_dmxWrite: Uart" << uartNum << " MAB failed" << endl;
+        cerr << "write_zeros: UART" << uartNum << " failed" << endl;
         return -1;
     }
     
-    usleep(100);
-
-    if( ioctl(uartID, TIOCCBRK) < 0) {
-        cerr << "uart_dmxWrite: Uart" << uartNum << " MAB failed" << endl;
-        return -1;
-    }
-    
-    usleep(15);
-
-    if (write(uartID, data, len) < 0) {
-        return -1;
-    }
-
-    return 0;
-}
-int UART::status() {
-
+    usleep(interval);
     return 0;
 }
 
-int UART::getID() {
-    return uartID;
+int UART::write_ones(int interval) {
+    if (ioctl(uartID, TIOCCBRK) < 0) {
+        cerr << "write_zeroes:" << uartNum << " failed" << endl;
+        return -1;
+    }
+
+    usleep(interval);
+    return 0;
 }
+
 
 UART::~UART() {     
     if (uartID != -1) {     
