@@ -29,7 +29,7 @@ int UART::init() {
     string name = "/dev/ttyO";
     string namepath = name + to_string(uartNum);
     
-    /* Open devide in appropriate mode */
+    /* Open device in appropriate mode */
     if (uartType == TX) {
         uartID = open(namepath.c_str(), O_WRONLY | O_NOCTTY | O_NDELAY);
     }
@@ -120,25 +120,24 @@ int UART::write_zeros(long interval) {
         return -1;
     }
    
-    if( ioctl(uartID, TIOCSBRK) < 0) {
+    if(ioctl(uartID, TIOCSBRK) < 0) {
         cerr << "write_zeros: UART" << uartNum << " failed" << endl;
         return -1;
     }
     
-    usleep(interval);
+    usleep(interval); //Sleep while in default state of writing zeroes
     return 0;
 }
 
-int UART::write_ones(int interval) {
+int UART::write_ones(long interval) {
     if (ioctl(uartID, TIOCCBRK) < 0) {
         cerr << "write_zeroes:" << uartNum << " failed" << endl;
         return -1;
     }
-
-    usleep(interval);
+	
+    usleep(interval); //Sleep while in default state of writing 1's
     return 0;
 }
-
 
 UART::~UART() {     
     if (uartID != -1) {     
