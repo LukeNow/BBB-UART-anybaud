@@ -1,4 +1,4 @@
-# bbb-uart
+# BBB-UART-AnyBaud
 Programming interface written in C++ that allows the use of UARTs on the BeagleBone Black(BBB) at any Baud rate.
 This interface aims to fix the lack of frameworks that have wrappers for reading and writing to UARTS of the BBB, as well as the lack of options to set UARTs to any Baud rate. 
 
